@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Civilizaciones Verdes</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:linear-gradient(#6ab04c,#badc58,#dff9fb);
+min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+background:#2d6a4f;
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+}
+
+/* HERO */
+
+.hero{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:45px;
+text-shadow:2px 2px 10px black;
+}
+
+.hero p{
+margin-top:10px;
+font-size:20px;
+}
+
+button{
+padding:12px 25px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#2d6a4f;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#1b4332;
+transform:scale(1.05);
+}
+
+/* SECTIONS */
+
+.section{
+padding:50px 20px;
+display:flex;
+justify-content:center;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+width:350px;
+text-align:center;
+}
+
+/* FORM */
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+/* QUIZ */
+
+#quiz{
+display:none;
+}
+
+.question{
+font-size:20px;
+margin-bottom:20px;
+}
+
+.option{
+background:#d8f3dc;
+margin:10px 0;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.option:hover{
+background:#95d5b2;
+}
+
+.correct{
+background:#2ecc71 !important;
+color:white;
+}
+
+.incorrect{
+background:#e74c3c !important;
+color:white;
+}
+
+#score{
+font-size:18px;
+margin-top:10px;
+}
+
+/* PROGRESS BAR */
+
+#progress{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:10px;
+margin-bottom:15px;
+overflow:hidden;
+}
+
+#bar{
+height:10px;
+width:0%;
+background:#2d6a4f;
+transition:0.4s;
+}
+
+/* FOOTER */
+
+footer{
+background:#2d6a4f;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+🌎 Civilizaciones Verdes
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>Protege el planeta</h1>
+<p>Aprende sobre el medio ambiente jugando</p>
+
+<button onclick="mostrarLogin()">Comenzar</button>
+
+</section>
+
+<!-- REGISTRO -->
+
+<section class="section">
+
+<div class="card">
+
+<h2>Registro</h2>
+
+<input id="regUser" placeholder="Usuario">
+<input id="regPass" type="password" placeholder="Contraseña">
+
+<button onclick="registrar()">Registrarse</button>
+
+</div>
+
+</section>
+
+<!-- LOGIN -->
+
+<section class="section" id="loginSection">
+
+<div class="card">
+
+<h2>Inicio de sesión</h2>
+
+<input id="logUser" placeholder="Usuario">
+<input id="logPass" type="password" placeholder="Contraseña">
+
+<button onclick="login()">Entrar</button>
+
+</div>
+
+</section>
+
+<!-- QUIZ -->
+
+<section class="section">
+
+<div class="card" id="quiz">
+
+<h2>Juego ambiental 🌱</h2>
+
+<div id="progress">
+<div id="bar"></div>
+</div>
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+<p id="score">Puntos: 0</p>
+
+</div>
+
+</section>
+
+<footer>
+
+Proyecto educativo sobre ecosistemas
+
+</footer>
+
+<script>
+
+/* REGISTRO */
+
+function registrar(){
+
+let user=document.getElementById("regUser").value
+let pass=document.getElementById("regPass").value
+
+localStorage.setItem("usuario",user)
+localStorage.setItem("password",pass)
+
+alert("Usuario registrado correctamente")
+
+}
+
+/* LOGIN */
+
+function login(){
+
+let user=document.getElementById("logUser").value
+let pass=document.getElementById("logPass").value
+
+let u=localStorage.getItem("usuario")
+let p=localStorage.getItem("password")
+
+if(user===u && pass===p){
+
+alert("Bienvenido "+user)
+
+document.getElementById("quiz").style.display="block"
+
+cargarPregunta()
+
+}else{
+
+alert("Datos incorrectos")
+
+}
+
+}
+
+/* QUIZ */
+
+let preguntas=[
+
+{pregunta:"¿Cuál es una causa principal del cambio climático?",
+opciones:["Uso de energías renovables","Quema de combustibles fósiles","Reciclaje","Reforestación"],
+respuesta:1},
+
+{pregunta:"¿Qué acción ayuda a reducir la contaminación?",
+opciones:["Tirar basura","Reciclar","Quemar plástico","Usar más gasolina"],
+respuesta:1},
+
+{pregunta:"¿Qué problema afecta a los océanos?",
+opciones:["Plástico","Árboles","Montañas","Rocas"],
+respuesta:0},
+
+{pregunta:"¿Qué ayuda a combatir el cambio climático?",
+opciones:["Talar bosques","Plantar árboles","Quemar carbón","Contaminar ríos"],
+respuesta:1},
+
+{pregunta:"¿Cuál es una fuente de energía renovable?",
+opciones:["Petróleo","Solar","Carbón","Gasolina"],
+respuesta:1},
+
+{pregunta:"¿Qué gas provoca el efecto invernadero?",
+opciones:["Oxígeno","CO2","Helio","Neón"],
+respuesta:1},
+
+{pregunta:"¿Qué práctica protege los bosques?",
+opciones:["Deforestación","Reforestación","Quema","Contaminación"],
+respuesta:1},
+
+{pregunta:"¿Qué debemos hacer con la basura?",
+opciones:["Tirarla al río","Quemarla","Reciclarla","Enterrarla"],
+respuesta:2},
+
+{pregunta:"¿Qué contamina el aire?",
+opciones:["Autos","Árboles","Plantas","Flores"],
+respuesta:0},
+
+{pregunta:"¿Qué recurso debemos cuidar más?",
+opciones:["Agua","Humo","Plástico","Gasolina"],
+respuesta:0}
+
+]
+
+let indice=0
+let puntos=0
+
+function cargarPregunta(){
+
+let q=preguntas[indice]
+
+document.getElementById("question").innerText=q.pregunta
+
+let optionsHTML=""
+
+q.opciones.forEach((op,i)=>{
+
+optionsHTML+=`<div class="option" onclick="responder(${i},this)">${op}</div>`
+
+})
+
+document.getElementById("options").innerHTML=optionsHTML
+
+document.getElementById("bar").style.width=(indice/preguntas.length)*100+"%"
+
+}
+
+function responder(i,element){
+
+let correcta=preguntas[indice].respuesta
+
+let opciones=document.querySelectorAll(".option")
+
+opciones.forEach(op=>op.style.pointerEvents="none")
+
+if(i===correcta){
+
+element.classList.add("correct")
+puntos++
+
+}else{
+
+element.classList.add("incorrect")
+opciones[correcta].classList.add("correct")
+
+}
+
+document.getElementById("score").innerText="Puntos: "+puntos
+
+setTimeout(()=>{
+
+indice++
+
+if(indice<preguntas.length){
+
+cargarPregunta()
+
+}else{
+
+document.getElementById("bar").style.width="100%"
+document.getElementById("question").innerText="Juego terminado 🌎"
+document.getElementById("options").innerHTML="Tu puntaje final fue: "+puntos+" / "+preguntas.length
+
+}
+
+},1200)
+
+}
+
+</script>
+
+</body>
+</html>
